@@ -1,0 +1,148 @@
+<=====  REACT HOOK  ====>
+
+### useState
+import React, { useState💛 } from "react";
+
+export default function App() {
+  const [item, setItem] = useState(1);💛
+  const incrementItem = () => setItem(item + 1);💛
+  const decrementItem = () => setItem(item - 1);💛
+  return (
+    <div className="App">
+      <h1>Hello {item}</h1>
+      <button onClick={incrementItem💛}>increment</button>
+      <button onClick={decrementItem💛}>decrement</button>
+    </div>
+  );
+}
+
+
+### 위와 같은 결과 NO REACT HOOK
+class AppUgly extends Component {
+  state = {
+    item: 1
+  };
+  render() {
+    const { item } = this.state;
+    return (
+      <div className="App">
+        <h1>Hello {item}</h1>
+        <h2>Start editing to see some magic happen!</h2>
+        <button onClick={this.incrementItem}>increment</button>
+        <button onClick={this.decrementItem}>decrement</button>
+      </div>
+    );
+  }
+  incrementItem = () => {
+    this.setState(state => {
+      return {
+        item: state.item + 1
+      };
+    });
+  };
+  decrementItem = () => {
+    this.setState(state => {
+      return {
+        item: state.item - 1
+      };
+    });
+  };
+}
+
+
+
+
+
+
+
+
+
+
+### {...} 안에 모든 것 보기
+export default function App() {
+  const name💛 = useInput("Mr.");
+  return (
+    <div className="App">
+      <h1>Hello</h1>
+      <input placeholder="name" {...name}💛 />
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### useInput
+const useInput = (initialValue💛) => {
+  const [value, setValue] = useState(initialValue);💛
+  const onChange = event => {
+    const {target: { value }} = event;💛
+    };
+  return { value, onChange };💛
+};
+
+export default function App() {
+  const name = useInput("Mr.");💛
+  return (
+    <div className="App">
+      <h1>Hello</h1>
+      <input placeholder="name" {...name}💛 />
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### validator
+const useInput = (initialValue, validator💛) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = event => {
+    const {
+      target: { value }
+    } = event;
+    let willUpdate = true;💛
+    if (typeof validator === "function") {
+      willUpdate = validator(value);
+    }💛
+    if (willUpdate) {
+      setValue(value);
+    }💛
+  };
+  return { value, onChange };
+};
+
+export default function App() {
+  const maxLen = value => value.length <= 10;💛
+  const name = useInput("Mr.", maxLen💛);
+  return (
+    <div className="App">
+      <h1>Hello</h1>
+      <input placeholder="name" {...name} />
+    </div>
+  );
+}
